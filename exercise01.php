@@ -8,6 +8,6 @@ $sumar = $numero1 + $numero2;
 $resta = $numero1 - $numero2;
 $division = $numero1 / $numero2;
 
-echo "La suma de $numero1 y $numero2 es igual $sumar";
-echo "La resta de $numero1 y $numero2 es igual $resta";
+echo "La suma de $numero1 y $numero2 es igual $sumar"."<br>";
+echo "La resta de $numero1 y $numero2 es igual $resta"."<br>";
 echo "La division de $numero1 y $numero2 es igual $division";
