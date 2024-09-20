@@ -21,4 +21,4 @@ echo $valores_sumados."<br>";
 echo "Pares: ".$pares."<br>";
 echo "Impares: ".$impares;
 
-// fdsfsdf
+// fds
