@@ -20,5 +20,3 @@ while ($valores_sumados <= 100) {
 echo $valores_sumados."<br>";
 echo "Pares: ".$pares."<br>";
 echo "Impares: ".$impares;
-
-// fds
