@@ -13,7 +13,7 @@ while ($valores_sumados <= 100) {
     $valor_random += rand(0,20);
 
     $valor_random % 2 == 0 ? $pares++ : $impares++;
-    
+
     echo $valores_sumados."+".$valor_random."<br>";
     $valores_sumados += $valor_random;
 }
@@ -21,5 +21,4 @@ echo $valores_sumados."<br>";
 echo "Pares: ".$pares."<br>";
 echo "Impares: ".$impares;
 
-
-
+// fdsfsdf
