@@ -1,58 +1,72 @@
 <?php
 session_start();
-$_SESSION["work-name"] = $_GET["worker-name"];
-$product = $_GET["product"];
-$quantity = $_GET["quantity"];
 
-$quantity_milk = $_SESSION["product-quantity-milk"];
-$quantity_softdrink = $_SESSION["product-quantity-softdrink"];
+if (!isset($_SESSION['inventory'])) {
+    $_SESSION['inventory'] = [
+        'milk' => 3,
+        'soft_drink' => 0
+    ];
+}
 
-if (!isset($product) && !isset($quantity)) {
-    switch ($product) {
-        case 'milk':
-            $_SESSION["product-quantity-milk"] += 1;
-            break;
-        case 'soft-drink':
-            $_SESSION["product-quantity-softdrink"] += $quantity;
-            break;
-        default:
-            break;
+if (isset($_POST['worker_name'])) {
+    $_SESSION['worker_name'] = $_POST['worker_name'];
+}
+
+$error = '';
+if (isset($_POST['product'], $_POST['quantity'])) {
+    $product = $_POST['product'];
+    $quantity = (int) $_POST['quantity'];
+
+    if ($_POST['action'] == 'add') {
+        $_SESSION['inventory'][$product] += $quantity;
+    } elseif ($_POST['action'] == 'remove') {
+        if ($_SESSION['inventory'][$product] >= $quantity) {
+            $_SESSION['inventory'][$product] -= $quantity;
+        } else {
+            $error = "Cannot remove more $product than available!";
+        }
+    } elseif ($_POST['action'] == 'reset') {
+        $_SESSION['inventory'][$product] = 0;
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Supermarket Management</title>
 </head>
 <body>
-    <form method="GET">
-        <h1>Supermarket management</h1>
+    <h1>Supermarket Management</h1>
+    
+    <!-- Form for worker name -->
+    <form method="POST">
+        <label for="worker_name">Worker name: </label>
+        <input type="text" id="worker_name" name="worker_name" value="<?php echo isset($_SESSION['worker_name']) ? $_SESSION['worker_name'] : ''; ?>" required>
+        <input type="submit" value="Save Worker Name">
+    </form>
 
-        <label for="worker-name">Worker name:</label>
-        <input type="text" id="worker-name" name="worker-name" value="<?php echo $_SESSION["work-name"]?>"><br>
-
-        <label for="product">Choose product:</label>
+    <br>
+    
+    <!-- Product selection form -->
+    <form method="POST">
+        <label for="product">Choose product: </label>
         <select id="product" name="product">
             <option value="milk">Milk</option>
-            <option value="soft-drink">Soft Drink</option>
-        </select><br>
+            <option value="soft_drink">Soft Drink</option>
+        </select>
 
-        <label for="quantity">Product quantity:</label>
-        <input type="number" id="quantity" name="quantity" value=""><br>
+        <label for="quantity">Product quantity: </label>
+        <input type="number" id="quantity" name="quantity" min="1" required>
 
-        <input type="submit" value="ADD">
-        <button type="button">REMOVE</button>
-        <input type="reset" value="RESET">
+        <button type="submit" name="action" value="add">add</button>
+        <button type="submit" name="action" value="remove">remove</button>
+        <button type="submit" name="action" value="reset">reset</button>
     </form>
-    <div class="inventory">
-        <h3>Inventory:</h3>
-        <p id="inventory-worker">Worker: <?php echo $_SESSION["work-name"]?></p>
-        <p id="inventory-milk">Units milk: <?php echo $_SESSION["product-quantity-milk"]?></p>
-        <p id="inventory-soft-drink">Units soft drink: <?php echo $_SESSION["product-quantity-softdrink"]?></p>
-    </div>
+
+    <h2>Inventory:</h2>
+    <p>Worker: <?php echo isset($_SESSION['worker_name']) ? $_SESSION['worker_name'] : ' '; ?></p>
+    <p>Units milk: <?php echo $_SESSION['inventory']['milk']; ?></p>
+    <p>Units soft drink: <?php echo $_SESSION['inventory']['soft_drink']; ?></p>
 </body>
 </html>

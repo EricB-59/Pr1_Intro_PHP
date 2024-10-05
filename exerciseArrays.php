@@ -42,3 +42,25 @@ echo "Notas de los estudiantes: ";
 foreach ($notas as $nombre => $nota) {
     echo $nombre.":".$nota."\n";
 }
+
+echo "<br><br>EJERCICIO 7<br>";
+// Calcular la media de las notas
+$suma_notas = array_sum($notas); // Sumar todas las notas
+$num_estudiantes = count($notas); // Número de estudiantes
+$media = $suma_notas / $num_estudiantes; // Calcular la media
+
+echo "<br>Media de las notas: " . number_format($media, 2) . "<br>";
+
+echo "<br>Alumnos con nota superior a la media:<br>";
+foreach ($notas as $nombre => $nota) {
+    if ($nota > $media) {
+        echo $nombre . "<br>";
+    }
+}
+
+echo "<br><br>EJERCICIO 8<br>";
+// Encontrar la nota más alta y el mejor alumno
+$nota_maxima = max($notas); // Obtener la nota más alta
+$mejor_alumno = array_search($nota_maxima, $notas); // Buscar el nombre del alumno con la nota más alta
+
+echo "<br>La nota mas alta es: " . $nota_maxima . " y el mejor alumno es:" . $mejor_alumno . "<br>";
